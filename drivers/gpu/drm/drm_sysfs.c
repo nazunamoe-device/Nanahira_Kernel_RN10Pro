@@ -24,6 +24,8 @@
 #include <drm/drmP.h>
 #include "drm_internal.h"
 
+#include "drm_internal_mi.h"
+
 #define to_drm_minor(d) dev_get_drvdata(d)
 #define to_drm_connector(d) dev_get_drvdata(d)
 //#define to_dsi_bridge(x)     container_of((x), struct dsi_bridge, base)
@@ -489,6 +491,14 @@ static ssize_t thermal_hbm_disabled_show(struct device *device,
 	return snprintf(buf, PAGE_SIZE, "%d\n", thermal_hbm_disabled);
 }
 
+static ssize_t panel_info_show(struct device *device,
+			   struct device_attribute *attr,
+			   char *buf)
+{
+	struct drm_connector *connector = to_drm_connector(device);
+	return dsi_display_read_panel_info(connector, buf);
+}
+
 extern ssize_t wp_info_show(struct device *device,
 				struct device_attribute *attr,
 				char *buf);
@@ -509,6 +519,7 @@ static DEVICE_ATTR_RO(smart_fps_value);
 static DEVICE_ATTR_RO(dynamic_fps);
 static DEVICE_ATTR_RW(mipi_reg);
 static DEVICE_ATTR_RO(wp_info);
+static DEVICE_ATTR_RO(panel_info);
 
 
 static struct attribute *connector_dev_attrs[] = {
@@ -528,6 +539,7 @@ static struct attribute *connector_dev_attrs[] = {
 	&dev_attr_mipi_reg.attr,
 	&dev_attr_thermal_hbm_disabled.attr,
 	&dev_attr_wp_info.attr,
+	&dev_attr_panel_info.attr,
 	NULL
 };
 

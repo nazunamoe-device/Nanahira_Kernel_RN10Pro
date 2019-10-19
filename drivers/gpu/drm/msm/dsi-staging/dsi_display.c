@@ -36,6 +36,10 @@
 #include "dsi_panel_mi.h"
 #include "dsi_phy.h"
 
+#define to_dsi_bridge(x)  container_of((x), struct dsi_bridge, base)
+
+//static atomic64_t g_param = ATOMIC64_INIT(0);
+
 #define to_dsi_display(x) container_of(x, struct dsi_display, host)
 #define to_dsi_bridge(x)     container_of((x), struct dsi_bridge, base)
 #define INT_BASE_10 10
@@ -7816,6 +7820,45 @@ unsigned int dsi_panel_get_refresh_rate(void)
 	return READ_ONCE(cur_refresh_rate);
 }
 
+ssize_t dsi_display_read_panel_info(struct drm_connector *connector,
+			char *buf)
+{
+	struct dsi_display *display = NULL;
+	struct dsi_bridge *c_bridge = NULL;
+	char *pname = NULL;
+	ssize_t ret = 0;
+
+	pname = dsi_display_get_cmdline_panel_info();
+	if (pname) {
+		ret = snprintf(buf, PAGE_SIZE, "panel_name=%s\n", pname);
+	} else {
+		if (!connector || !connector->encoder || !connector->encoder->bridge) {
+			pr_err("Invalid connector/encoder/bridge ptr\n");
+			return -EINVAL;
+		}
+
+		c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+		display = c_bridge->display;
+		if (!display || !display->panel) {
+			pr_err("Invalid display/panel ptr\n");
+			return -EINVAL;
+		}
+
+		if (display->name) {
+			/* find the last occurrence of a character in a string */
+			pname = strrchr(display->name, ',');
+			if (pname && *pname)
+				ret = snprintf(buf, PAGE_SIZE, "panel_name=%s\n", ++pname);
+			else
+				ret = snprintf(buf, PAGE_SIZE, "panel_name=%s\n", display->name);
+		} else {
+			ret = snprintf(buf, PAGE_SIZE, "panel_name=%s\n", "null");
+		}
+	}
+
+	return ret;
+}
+
 int dsi_display_enable(struct dsi_display *display)
 {
 	int rc = 0;
@@ -8155,6 +8198,35 @@ static void __exit dsi_display_unregister(void)
 	platform_driver_unregister(&dsi_display_driver);
 	dsi_ctrl_drv_unregister();
 	dsi_phy_drv_unregister();
+}
+
+char *dsi_display_get_cmdline_panel_info(void)
+{
+	char *buffer = NULL, *buffer_dup = NULL;
+	char *pname = NULL;
+	char *panel_info = NULL;
+
+	buffer = kstrdup(dsi_display_primary, GFP_KERNEL);
+	if (!buffer)
+		return NULL;
+	buffer_dup = buffer;
+
+	buffer = strrchr(buffer, ',');
+	if (buffer && *buffer) {
+		pname = ++buffer;
+	} else {
+		goto exit;
+	}
+
+	buffer = strrchr(pname, ':');
+	if (buffer)
+		*buffer = '\0';
+
+	panel_info = kstrdup(pname, GFP_KERNEL);
+
+exit:
+	kfree(buffer_dup);
+	return panel_info;
 }
 
 ssize_t dsi_display_dynamic_fps_read(struct drm_connector *connector,

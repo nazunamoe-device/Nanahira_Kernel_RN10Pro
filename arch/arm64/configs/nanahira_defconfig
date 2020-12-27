@@ -224,6 +224,9 @@ CONFIG_EMBEDDED=y
 CONFIG_HAVE_PERF_EVENTS=y
 # CONFIG_PC104 is not set
 
+# Add Boeffla WL Blocker
+CONFIG_BOEFFLA_WL_BLOCKER=y
+
 #
 # Kernel Performance Events And Counters
 #

@@ -2032,6 +2032,11 @@ struct ipa3_context {
 	int uc_act_tbl_ipv6_nat_total;
 	int uc_act_tbl_next_index;
 	bool manual_fw_load;
+	bool ipa_in_cpe_cfg;
+	u32 ipa_wdi3_2g_holb_timeout;
+	u32 ipa_wdi3_5g_holb_timeout;
+	bool is_wdi3_tx1_needed;
+	bool is_modem_up;
 };
 
 struct ipa3_plat_drv_res {
@@ -3224,4 +3229,8 @@ static inline void *alloc_and_init(u32 size, u32 init_val)
 bool ipa3_is_apq(void);
 /* check if odl is connected */
 bool ipa3_is_odl_connected(void);
+/* check if modem is up */
+bool ipa3_is_modem_up(void);
+/* set modem is up */
+void ipa3_set_modem_up(bool is_up);
 #endif /* _IPA3_I_H_ */

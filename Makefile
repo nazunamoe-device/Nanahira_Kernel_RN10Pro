@@ -715,6 +715,7 @@ KBUILD_CFLAGS	+= -mllvm -polly \
 		   -mllvm -polly-vectorizer=stripmine \
 		   -mllvm -polly-invariant-load-hoisting
 endif
+endif
 
 # Tell compiler to tune the performance of the code for a specified
 # target processor

@@ -348,7 +348,7 @@ int aw_dsp_read_msg(struct aw_device *aw_dev,
 
 int aw_dsp_write_cali_cfg(struct aw_device *aw_dev, char *data, unsigned int data_len)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -376,7 +376,7 @@ int aw_dsp_write_cali_cfg(struct aw_device *aw_dev, char *data, unsigned int dat
 
 int aw_dsp_read_cali_cfg(struct aw_device *aw_dev, char *data, unsigned int data_len)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -404,7 +404,7 @@ int aw_dsp_read_cali_cfg(struct aw_device *aw_dev, char *data, unsigned int data
 int aw_dsp_noise_en(struct aw_device *aw_dev, bool is_noise)
 {
 	int32_t noise = is_noise;
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -431,7 +431,7 @@ int aw_dsp_noise_en(struct aw_device *aw_dev, bool is_noise)
 
 int aw_dsp_write_vmax(struct aw_device *aw_dev, char *data, unsigned int data_len)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -458,7 +458,7 @@ int aw_dsp_write_vmax(struct aw_device *aw_dev, char *data, unsigned int data_le
 
 int aw_dsp_read_vmax(struct aw_device *aw_dev, char *data, unsigned int data_len)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -485,7 +485,7 @@ int aw_dsp_read_vmax(struct aw_device *aw_dev, char *data, unsigned int data_len
 
 int aw_dsp_write_params(struct aw_device *aw_dev, char *data, unsigned int data_len)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -512,7 +512,7 @@ int aw_dsp_write_params(struct aw_device *aw_dev, char *data, unsigned int data_
 
 int aw_dsp_write_cali_re(struct aw_device *aw_dev, int32_t cali_re)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 	int32_t local_re = AW_SHOW_RE_TO_DSP_RE(cali_re);
@@ -540,7 +540,7 @@ int aw_dsp_write_cali_re(struct aw_device *aw_dev, int32_t cali_re)
 
 int aw_dsp_read_cali_re(struct aw_device *aw_dev, int32_t *cali_re)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 	int32_t read_re = 0;
@@ -611,7 +611,7 @@ int aw_dsp_cali_en(struct aw_device *aw_dev, bool is_enable)
 
 int aw_dsp_read_f0(struct aw_device *aw_dev, int32_t *f0)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -667,7 +667,7 @@ int aw_dsp_read_f0_q(struct aw_device *aw_dev, int32_t *f0, int32_t *q)
 
 int aw_dsp_read_cali_data(struct aw_device *aw_dev, char *data, unsigned int data_len)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 
@@ -694,7 +694,7 @@ int aw_dsp_read_cali_data(struct aw_device *aw_dev, char *data, unsigned int dat
 
 int aw_dsp_read_r0(struct aw_device *aw_dev, int32_t *r0)
 {
-	uint32_t msg_id;
+	uint32_t msg_id = 0;
 	int ret;
 	int msg_num;
 	int32_t data[6];

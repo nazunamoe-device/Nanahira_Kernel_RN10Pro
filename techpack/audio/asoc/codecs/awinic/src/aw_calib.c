@@ -1473,7 +1473,7 @@ static int aw_cali_misc_open(struct inode *inode, struct file *file)
 {
 	struct list_head *dev_list;
 	struct list_head *pos = NULL;
-	struct aw_device *local_dev;
+	struct aw_device *local_dev = 0;
 	int ret;
 
 	ret = aw_dev_get_list_head(&dev_list);
